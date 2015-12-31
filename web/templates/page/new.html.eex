@@ -1,0 +1,20 @@
+<h3 class="text-center">Say something to somone</h3>
+<form class="form-horizontal">
+  <div class="form-group">
+    <label for="emailAddress" class="col-sm-2 control-label">Email</label>
+    <input type="email" class="col-sm-10" id="emailAddress" placeholder="Email">
+  </div>
+  <div class="form-group">
+    <label for="emailSubject" class="col-sm-2 control-label">Subject</label>
+    <input type="text" class="col-sm-10" placeholder="Subject" id="emailSubject">
+  </div>
+  <div class="form-group">
+    <label for="emailMessage" class="col-sm-2 control-label">Message</label>
+    <input type="text" class="col-sm-10" id="emailMessage" placeholder="Message">
+  </div>
+ <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-default">Send The Message</button>
+    </div>
+  </div>
+</form>
