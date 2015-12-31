@@ -1,5 +1,5 @@
 <h3 class="text-center">Say something to somone</h3>
-<form class="form-horizontal">
+<%= form_tag(page_path(@conn, :create), method: :post, class: "form-horizontal") %>
   <div class="form-group">
     <label for="emailAddress" class="col-sm-2 control-label">Email</label>
     <input type="email" class="col-sm-10" id="emailAddress" placeholder="Email">
