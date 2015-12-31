@@ -16,6 +16,11 @@ config :luncher, Luncher.Endpoint,
   url: [host: "example.com", port: 80],
   cache_static_manifest: "priv/static/manifest.json"
 
+config :luncher, Luncher.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  url: System.get_env("DATABASE_URL"),
+  pool_size: 20
+
 config :luncher, Luncher.Endpoint,
   http: [port: {:system, "PORT"}],
 	url: [scheme: "https", host: "whispering-hamlet-3698.herokuapp.com", port: 443],
