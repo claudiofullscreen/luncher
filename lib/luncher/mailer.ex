@@ -1,9 +1,7 @@
 defmodule Luncher.Mailer do
   use Mailgun.Client,
       domain: Application.get_env(:luncher, :mailgun_domain),
-      key: Application.get_env(:luncher, :mailgun_key),
-      # mode: :test,
-      # test_file_path: "/tmp/mailgun.json"
+      key: Application.get_env(:luncher, :mailgun_key)
 
  	@from "test@example.com"
 

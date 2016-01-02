@@ -14,6 +14,10 @@ config :luncher, Luncher.Endpoint,
   pubsub: [name: Luncher.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+config :luncher,
+       mailgun_domain: System.get_env("MAILGUN_DOMAIN"),
+       mailgun_key: System.get_env("MAILGUN_API_KEY")
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
@@ -22,7 +26,6 @@ config :logger, :console,
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
-import_config "config.secret.exs"
 
 # Configure phoenix generators
 config :phoenix, :generators,
