@@ -9,7 +9,7 @@ defmodule Luncher.Mailer do
 	  send_email to: email_address,
 	             from: @from,
 	             subject: "Welcome!",
-	             text: "Greetings from the Dev Env Luncher!",
-	             html: "<strong>Greetings from the Dev Env Luncher!</strong>"
+	             text: "Greetings from the Real Luncher!",
+	             html: "<strong>Greetings from the Real Luncher!</strong>"
 	end
 end
