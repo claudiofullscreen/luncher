@@ -1,9 +1,9 @@
 defmodule Luncher.Mailer do
-  use Mailgun.Client,
-      domain: Application.get_env(:luncher, :mailgun_domain),
-      key: Application.get_env(:luncher, :mailgun_key)
-
+	@config domain: Application.get_env(:luncher, :mailgun_domain),
+      		key: Application.get_env(:luncher, :mailgun_key)
  	@from "test@example.com"
+
+  use Mailgun.Client, @config
 
 	def send_welcome_email(email_address) do
 	  send_email to: email_address,
