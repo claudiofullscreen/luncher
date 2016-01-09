@@ -1,6 +1,7 @@
 defmodule Luncher.Mailer do
 	@config domain: Application.get_env(:luncher, :mailgun_domain),
       		key: Application.get_env(:luncher, :mailgun_key)
+
  	@from "test@example.com"
 
   use Mailgun.Client, @config
