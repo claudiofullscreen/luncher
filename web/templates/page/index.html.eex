@@ -1,2 +1,2 @@
-<h3 class="text-center">Welcome</h3>
-<div class="welcome--main"><%= link "New", to: page_path(@conn, :new)%></div>
+<h3 class="text-center">Make a decision already!</h3>
+<div class="welcome--main"><%= button "Hungry?", to: question_path(@conn, :create, "question": %{"text" => "Where should we eat?"} )%></div>

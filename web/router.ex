@@ -17,7 +17,8 @@ defmodule Luncher.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-    resources "/pages", PageController
+    resources "/signup", SignupController
+    resources "/question", QuestionController
   end
 
   # Other scopes may use custom stacks.
