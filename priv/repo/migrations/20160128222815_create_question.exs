@@ -2,7 +2,7 @@ defmodule Luncher.Repo.Migrations.CreateQuestion do
   use Ecto.Migration
 
   def change do
-    create table(:question) do
+    create table(:questions) do
       add :text, :string
 
       timestamps

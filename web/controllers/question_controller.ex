@@ -1,7 +1,9 @@
+require IEx
 defmodule Luncher.QuestionController do
   use Luncher.Web, :controller
 
   alias Luncher.Question
+  alias Luncher.Option
 
   plug :scrub_params, "question" when action in [:create, :update]
 
@@ -29,7 +31,8 @@ defmodule Luncher.QuestionController do
 
   def show(conn, %{"id" => id}) do
     question = Repo.get!(Question, id)
-    render(conn, "show.html", question: question)
+    new_option_changeset = Option.changeset(%Option{})
+    render(conn, "show.html", question: question, new_option_changeset: new_option_changeset)
   end
 
   def edit(conn, %{"id" => id}) do

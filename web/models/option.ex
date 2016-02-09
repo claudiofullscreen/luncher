@@ -1,14 +1,15 @@
-defmodule Luncher.Question do
+defmodule Luncher.Option do
   use Luncher.Web, :model
 
-  schema "questions" do
-    field :text, :string
-    has_many :options, Luncher.Option
+  schema "options" do
+    field :name, :string
+    belongs_to :question, Luncher.Question
+
     timestamps
   end
 
-  @required_fields ~w(text)
-  @optional_fields ~w()
+  @required_fields ~w()
+  @optional_fields ~w(name question_id)
 
   @doc """
   Creates a changeset based on the `model` and `params`.

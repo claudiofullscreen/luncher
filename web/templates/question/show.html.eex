@@ -1,13 +1,34 @@
-<h2>Show question</h2>
+<h2><%= @question.text %></h2>
 
+<p>Options:</p>
 <ul>
-
   <li>
-    <strong>Text:</strong>
-    <%= @question.text %>
+    <strong>Nothing yet</strong>
   </li>
 
 </ul>
+
+<%= form_for @new_option_changeset, option_path(@conn, :create), fn f -> %>
+  <%= if @new_option_changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= hidden_input f, :question_id, value: @question.id %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :name, class: "control-label" %>
+    <%= text_input f, :name, class: "form-control" %>
+    <%= error_tag f, :name %>
+  </div>
+
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>
 
 <%= link "Edit", to: question_path(@conn, :edit, @question) %>
 <%= link "Back", to: question_path(@conn, :index) %>
