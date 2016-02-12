@@ -31,6 +31,7 @@ defmodule Luncher.QuestionController do
 
   def show(conn, %{"id" => id}) do
     question = Repo.get!(Question, id)
+    question = Repo.preload(question, :options)
     new_option_changeset = Option.changeset(%Option{})
     render(conn, "show.html", question: question, new_option_changeset: new_option_changeset)
   end

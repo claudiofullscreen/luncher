@@ -11,7 +11,7 @@ defmodule Luncher.OptionController do
     {:ok, _option} ->
       conn
       |> put_flash(:info, "Option created successfully.")
-      |> redirect(to: question_path(conn, :index))
+      |> redirect(to: question_path(conn, :show, option_params["question_id"]))
     {:error, changeset} ->
       render(conn, Luncher.QuestionView, "new.html", changeset: changeset)
     end

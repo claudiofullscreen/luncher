@@ -1,11 +1,11 @@
 <h2><%= @question.text %></h2>
 
-<p>Options:</p>
 <ul>
-  <li>
-    <strong>Nothing yet</strong>
-  </li>
-
+  <%= for option <- @question.options do %>
+    <li>
+      <strong><%= option.name %></strong>
+    </li>
+  <%= end %>
 </ul>
 
 <%= form_for @new_option_changeset, option_path(@conn, :create), fn f -> %>
@@ -20,8 +20,7 @@
   </div>
 
   <div class="form-group">
-    <%= label f, :name, class: "control-label" %>
-    <%= text_input f, :name, class: "form-control" %>
+    <%= text_input f, :name, class: "form-control", placeholder: "Add another option" %>
     <%= error_tag f, :name %>
   </div>
 
