@@ -1,4 +1,3 @@
-require IEx
 defmodule Luncher.QuestionController do
   use Luncher.Web, :controller
 

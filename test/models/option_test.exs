@@ -3,7 +3,7 @@ defmodule Luncher.OptionTest do
 
   alias Luncher.Option
 
-  @valid_attrs %{name: "some content"}
+  @valid_attrs %{name: "some content", question_id: 3}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

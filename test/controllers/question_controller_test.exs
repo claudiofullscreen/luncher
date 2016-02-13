@@ -27,9 +27,10 @@ defmodule Luncher.QuestionControllerTest do
   end
 
   test "shows chosen resource", %{conn: conn} do
-    question = Repo.insert! %Question{}
+    text = "What should we do?"
+    question = Repo.insert! %Question{text: text}
     conn = get conn, question_path(conn, :show, question)
-    assert html_response(conn, 200) =~ "Show question"
+    assert html_response(conn, 200) =~ text
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
