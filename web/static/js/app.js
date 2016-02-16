@@ -117,11 +117,12 @@ var IdentificationForm = React.createClass({
     this.setState({firstName: "", wasFormSubmitted: true})
   },
   render() {
-    var displayForm = this.hasLoggedIn() ? "hide" : "show"
-    var displaySubmit = this.state.firstName == "" ? "hide" : "show"
+    var displayForm = this.hasLoggedIn() ? "identification__form hide" : "identification__form show"
+    var displayInput = this.hasLoggedIn() ? "identification__input hide" : "indentification__input show"
+    var displaySubmit = this.state.firstName == "" ? "identification__submit hide" : "identification__submit show"
     return (
       <form className={displayForm} onSubmit={this.handleSubmit}>
-        <input type="text" className={displayForm} placeholder="What is your name?" value={this.state.firstName} onChange={this.handleNameChange} />
+        <input type="text" className={displayInput} placeholder="What is your name?" value={this.state.firstName} onChange={this.handleNameChange} />
         <input className={displaySubmit} type="submit" value="Enter" />
       </form>
     )
