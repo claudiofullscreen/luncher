@@ -12,6 +12,16 @@ defmodule Luncher.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
+    plug Luncher.Auth
+  end
+
+  scope "/api", Luncher do
+    pipe_through :api
+
+    get "/session", SessionController, :show
+    delete "/session", SessionController, :delete
+    post "/session", SessionController, :create
   end
 
   scope "/", Luncher do
