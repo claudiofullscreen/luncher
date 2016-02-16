@@ -30281,12 +30281,13 @@ var IdentificationForm = _react2.default.createClass({
     this.setState({ firstName: "", wasFormSubmitted: true });
   },
   render: function render() {
-    var displayForm = this.hasLoggedIn() ? "hide" : "show";
-    var displaySubmit = this.state.firstName == "" ? "hide" : "show";
+    var displayForm = this.hasLoggedIn() ? "identification__form hide" : "identification__form show";
+    var displayInput = this.hasLoggedIn() ? "identification__input hide" : "indentification__input show";
+    var displaySubmit = this.state.firstName == "" ? "identification__submit hide" : "identification__submit show";
     return _react2.default.createElement(
       "form",
       { className: displayForm, onSubmit: this.handleSubmit },
-      _react2.default.createElement("input", { type: "text", className: displayForm, placeholder: "What is your name?", value: this.state.firstName, onChange: this.handleNameChange }),
+      _react2.default.createElement("input", { type: "text", className: displayInput, placeholder: "What is your name?", value: this.state.firstName, onChange: this.handleNameChange }),
       _react2.default.createElement("input", { className: displaySubmit, type: "submit", value: "Enter" })
     );
   }
