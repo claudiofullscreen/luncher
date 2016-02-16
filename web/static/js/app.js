@@ -52,10 +52,10 @@ var IdentificationBox = React.createClass({
         session: data
       },
       cache: false,
-      success: function(data) {
+      success: function(response) {
         this.setState({ isLoggedIn: true, firstName: data.first_name })
       }.bind(this),
-      failure: function(data) {
+      failure: function(response) {
       }.bind(this)
     })
   },
@@ -73,6 +73,7 @@ var IdentificationBox = React.createClass({
     return (
       <div>
         <IdentificationForm firstName={this.state.firstName} onSubmit={this.handleIdentificationSubmit} />
+        <Greeting firstName={this.state.firstName} />
         <SignOffButton isLoggedIn={this.state.isLoggedIn} onClick={this.handleLogout} />
       </div>
     )
@@ -86,6 +87,13 @@ var SignOffButton = React.createClass({
   render() {
     var displayClass = this.props.isLoggedIn ? "show" : "hide"
     return (<button className={displayClass} onClick={this.handleLogout}>Not me!</button>)
+  }
+})
+
+var Greeting = React.createClass({
+  render() {
+    var displayClass = this.props.firstName == "" ? "hide" : "show"
+    return(<div className={displayClass}>Hello {this.props.firstName}</div>)
   }
 })
 

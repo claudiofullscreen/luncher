@@ -30205,10 +30205,10 @@ var IdentificationBox = _react2.default.createClass({
         session: data
       },
       cache: false,
-      success: function (data) {
+      success: function (response) {
         this.setState({ isLoggedIn: true, firstName: data.first_name });
       }.bind(this),
-      failure: function (data) {}.bind(this)
+      failure: function (response) {}.bind(this)
     });
   },
   handleLogout: function handleLogout() {
@@ -30226,6 +30226,7 @@ var IdentificationBox = _react2.default.createClass({
       "div",
       null,
       _react2.default.createElement(IdentificationForm, { firstName: this.state.firstName, onSubmit: this.handleIdentificationSubmit }),
+      _react2.default.createElement(Greeting, { firstName: this.state.firstName }),
       _react2.default.createElement(SignOffButton, { isLoggedIn: this.state.isLoggedIn, onClick: this.handleLogout })
     );
   }
@@ -30242,6 +30243,19 @@ var SignOffButton = _react2.default.createClass({
       "button",
       { className: displayClass, onClick: this.handleLogout },
       "Not me!"
+    );
+  }
+});
+
+var Greeting = _react2.default.createClass({
+  displayName: "Greeting",
+  render: function render() {
+    var displayClass = this.props.firstName == "" ? "hide" : "show";
+    return _react2.default.createElement(
+      "div",
+      { className: displayClass },
+      "Hello ",
+      this.props.firstName
     );
   }
 });
