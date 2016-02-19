@@ -30154,6 +30154,10 @@ var _jquery = require("jquery");
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
+var _identification_box = require("./identification/identification_box");
+
+var _identification_box2 = _interopRequireDefault(_identification_box);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Brunch automatically concatenates all files in your
@@ -30171,13 +30175,71 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // to also remove its path from "config.paths.watched".
 
 
+window.onload = function () {
+  _reactDom2.default.render(_react2.default.createElement(_identification_box2.default, { url: "/api/session" }), document.getElementById("identification-form"));
+};
+
 // Import local files
 //
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
+});
 
+;require.register("web/static/js/identification/greeting", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Greeting = _react2.default.createClass({
+  displayName: "Greeting",
+  render: function render() {
+    var displayClass = this.props.firstName == "" ? "hide" : "show";
+    return _react2.default.createElement(
+      "div",
+      { className: displayClass },
+      "Hello ",
+      this.props.firstName
+    );
+  }
+});
+
+exports.default = Greeting;
+});
+
+;require.register("web/static/js/identification/identification_box", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _identification_form = require("./identification_form");
+
+var _identification_form2 = _interopRequireDefault(_identification_form);
+
+var _greeting = require("./greeting");
+
+var _greeting2 = _interopRequireDefault(_greeting);
+
+var _sign_off_button = require("./sign_off_button");
+
+var _sign_off_button2 = _interopRequireDefault(_sign_off_button);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var IdentificationBox = _react2.default.createClass({
   displayName: "IdentificationBox",
@@ -30225,40 +30287,28 @@ var IdentificationBox = _react2.default.createClass({
     return _react2.default.createElement(
       "div",
       null,
-      _react2.default.createElement(IdentificationForm, { firstName: this.state.firstName, onSubmit: this.handleIdentificationSubmit }),
-      _react2.default.createElement(Greeting, { firstName: this.state.firstName }),
-      _react2.default.createElement(SignOffButton, { isLoggedIn: this.state.isLoggedIn, onClick: this.handleLogout })
+      _react2.default.createElement(_identification_form2.default, { firstName: this.state.firstName, onSubmit: this.handleIdentificationSubmit }),
+      _react2.default.createElement(_greeting2.default, { firstName: this.state.firstName }),
+      _react2.default.createElement(_sign_off_button2.default, { isLoggedIn: this.state.isLoggedIn, onClick: this.handleLogout })
     );
   }
 });
 
-var SignOffButton = _react2.default.createClass({
-  displayName: "SignOffButton",
-  handleLogout: function handleLogout() {
-    this.props.onClick();
-  },
-  render: function render() {
-    var displayClass = this.props.isLoggedIn ? "show" : "hide";
-    return _react2.default.createElement(
-      "button",
-      { className: displayClass, onClick: this.handleLogout },
-      "Not me!"
-    );
-  }
+exports.default = IdentificationBox;
 });
 
-var Greeting = _react2.default.createClass({
-  displayName: "Greeting",
-  render: function render() {
-    var displayClass = this.props.firstName == "" ? "hide" : "show";
-    return _react2.default.createElement(
-      "div",
-      { className: displayClass },
-      "Hello ",
-      this.props.firstName
-    );
-  }
+;require.register("web/static/js/identification/identification_form", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var IdentificationForm = _react2.default.createClass({
   displayName: "IdentificationForm",
@@ -30293,9 +30343,38 @@ var IdentificationForm = _react2.default.createClass({
   }
 });
 
-window.onload = function () {
-  _reactDom2.default.render(_react2.default.createElement(IdentificationBox, { url: "/api/session" }), document.getElementById("identification-form"));
-};
+exports.default = IdentificationForm;
+});
+
+;require.register("web/static/js/identification/sign_off_button", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SignOffButton = _react2.default.createClass({
+  displayName: "SignOffButton",
+  handleLogout: function handleLogout() {
+    this.props.onClick();
+  },
+  render: function render() {
+    var displayClass = this.props.isLoggedIn ? "show" : "hide";
+    return _react2.default.createElement(
+      "button",
+      { className: displayClass, onClick: this.handleLogout },
+      "Not me!"
+    );
+  }
+});
+
+exports.default = SignOffButton;
 });
 
 ;require.register("web/static/js/socket", function(exports, require, module) {
