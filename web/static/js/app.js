@@ -19,14 +19,28 @@ import "phoenix_html"
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
-import {Socket} from "phoenix"
+import socket from "./socket"
 import React from "react"
 import ReactDOM from "react-dom"
 import jquery from "jquery"
 import IdentificationBox from "./identification/identification_box"
-
+import ChatApp from "./chat/chat"
+import QuestionStore from "./question_game/question_option"
 window.onload = () => {
-  ReactDOM.render(
+
+  ReactDOM.render(    
     <IdentificationBox url="/api/session"/>, document.getElementById("identification-form")
   )
+
+  let chatApp = document.getElementById("chat-app")
+  if (chatApp) {
+    ReactDOM.render(
+      <ChatApp />, chatApp
+    )    
+  }
+
+  let questionElement = document.getElementById("question-game")
+  if (questionElement) {
+    QuestionStore.init(socket, questionElement)
+  }
 }

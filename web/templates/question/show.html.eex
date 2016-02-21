@@ -8,6 +8,8 @@
   <%= end %>
 </ul>
 
+<%= content_tag :div, id: "question-game", data: [id: @question.id] do %><% end %>
+
 <%= form_for @new_option_changeset, option_path(@conn, :create), fn f -> %>
   <%= if @new_option_changeset.action do %>
     <div class="alert alert-danger">
@@ -28,6 +30,6 @@
     <%= submit "Submit", class: "btn btn-primary" %>
   </div>
 <% end %>
-
+<div id="chat-app" data-question-id="<%= #{@question.id} %>"></div>
 <%= link "Edit", to: question_path(@conn, :edit, @question) %>
 <%= link "Back", to: question_path(@conn, :index) %>

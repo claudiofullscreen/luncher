@@ -2,11 +2,11 @@ defmodule Luncher.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "rooms:*", Luncher.RoomChannel
+  channel "questions:*", Luncher.QuestionChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
-  # transport :longpoll, Phoenix.Transports.LongPoll
+  transport :longpoll, Phoenix.Transports.LongPoll
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After

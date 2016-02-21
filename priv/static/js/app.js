@@ -30140,7 +30140,9 @@ module.exports = require('./lib/React');
 
 require("phoenix_html");
 
-var _phoenix = require("phoenix");
+var _socket = require("./socket");
+
+var _socket2 = _interopRequireDefault(_socket);
 
 var _react = require("react");
 
@@ -30158,6 +30160,14 @@ var _identification_box = require("./identification/identification_box");
 
 var _identification_box2 = _interopRequireDefault(_identification_box);
 
+var _chat = require("./chat/chat");
+
+var _chat2 = _interopRequireDefault(_chat);
+
+var _question_option = require("./question_game/question_option");
+
+var _question_option2 = _interopRequireDefault(_question_option);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Brunch automatically concatenates all files in your
@@ -30174,9 +30184,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 
-
 window.onload = function () {
+
   _reactDom2.default.render(_react2.default.createElement(_identification_box2.default, { url: "/api/session" }), document.getElementById("identification-form"));
+
+  var chatApp = document.getElementById("chat-app");
+  if (chatApp) {
+    _reactDom2.default.render(_react2.default.createElement(_chat2.default, null), chatApp);
+  }
+
+  var questionElement = document.getElementById("question-game");
+  if (questionElement) {
+    _question_option2.default.init(_socket2.default, questionElement);
+  }
 };
 
 // Import local files
@@ -30185,6 +30205,64 @@ window.onload = function () {
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
+});
+
+;require.register("web/static/js/chat/chat", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _phoenix = require("phoenix");
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ChatApp = _react2.default.createClass({
+  displayName: "ChatApp",
+  getInitialState: function getInitialState() {
+    return {
+      users: []
+    };
+  },
+  componentDidMount: function componentDidMount() {
+    var elem = document.getElementById("question");
+    if (elem) {
+      var questionID = elem.getAttribute("data-id");
+      this._subscribe(questionID);
+    }
+  },
+  _subscribe: function _subscribe(questionID) {
+    var socket = new _phoenix.Socket("/socket");
+    socket.connect();
+    var questionChannel = socket.channel("questions:" + (questionID + 1));
+    questionChannel.join().receive("ok", function (chan) {
+      console.log("joined the channel!!!");
+    });
+
+    questionChannel.on("user.entered", function (msg) {
+      console.log("new msg!!!!!");
+    });
+
+    questionChannel.on("ping", function (_ref) {
+      var count = _ref.count;
+      return console.log("PING", count);
+    });
+  },
+  render: function render() {
+    return _react2.default.createElement(
+      "div",
+      null,
+      "Who is here?"
+    );
+  }
+});
+
+exports.default = ChatApp;
 });
 
 ;require.register("web/static/js/identification/greeting", function(exports, require, module) {
@@ -30377,6 +30455,51 @@ var SignOffButton = _react2.default.createClass({
 exports.default = SignOffButton;
 });
 
+;require.register("web/static/js/question_game/question_option", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require("react-dom");
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var QuestionOption = _react2.default.createClass({
+  displayName: "QuestionOption",
+  render: function render() {
+    return _react2.default.createElement(
+      "div",
+      null,
+      "hello there"
+    );
+  }
+});
+
+var QuestionStore = {
+  init: function init(socket, questionElement) {
+    var questionId = questionElement.getAttribute("data-id");
+
+    var questionChannel = socket.channel("questions:" + questionId);
+    questionChannel.join().receive("ok", function (resp) {
+      return console.log("asdf is", resp);
+    }).receive("error", function (resp) {
+      return console.log("harder to");
+    });
+    _reactDom2.default.render(_react2.default.createElement(QuestionOption, null), questionElement);
+  }
+};
+
+exports.default = QuestionStore;
+});
+
 ;require.register("web/static/js/socket", function(exports, require, module) {
 "use strict";
 
@@ -30384,9 +30507,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _phoenix = require("deps/phoenix/web/static/js/phoenix");
+var _phoenix = require("phoenix");
 
-var socket = new _phoenix.Socket("/socket", { params: { token: window.userToken } });
+var socket = new _phoenix.Socket("/socket", {
+  params: { token: window.userToken },
+  logger: function logger(kind, msg, data) {
+    console.log(kind + ": " + msg, data);
+  }
+});
 
 // When you connect, you'll often need to authenticate the client.
 // For example, imagine you have an authentication plug, `MyAuth`,
@@ -30440,12 +30568,10 @@ var socket = new _phoenix.Socket("/socket", { params: { token: window.userToken 
 socket.connect();
 
 // Now that you are connected, you can join channels with a topic:
-var channel = socket.channel("topic:subtopic", {});
-channel.join().receive("ok", function (resp) {
-  console.log("Joined successfully", resp);
-}).receive("error", function (resp) {
-  console.log("Unable to join", resp);
-});
+// let channel = socket.channel("topic:subtopic", {})
+// channel.join()
+//   .receive("ok", resp => { console.log("Joined successfully", resp) })
+//   .receive("error", resp => { console.log("Unable to join", resp) })
 
 exports.default = socket;
 });
