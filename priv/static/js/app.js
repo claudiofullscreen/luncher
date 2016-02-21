@@ -30472,28 +30472,62 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var QuestionGame = _react2.default.createClass({
+  displayName: "QuestionGame",
+  getInitialState: function getInitialState() {
+    return { questionText: "", options: [] };
+  },
+  render: function render() {
+    return _react2.default.createElement(
+      "div",
+      null,
+      _react2.default.createElement(QuestionTitle, { title: this.state.questionTitle }),
+      _react2.default.createElement(QuestionOption, null)
+    );
+  }
+});
+
+var QuestionTitle = _react2.default.createClass({
+  displayName: "QuestionTitle",
+  render: function render() {
+    return _react2.default.createElement(
+      "div",
+      null,
+      "This is a question"
+    );
+  }
+});
+
 var QuestionOption = _react2.default.createClass({
   displayName: "QuestionOption",
   render: function render() {
     return _react2.default.createElement(
       "div",
       null,
-      "hello there"
+      "hello there this is an option"
     );
   }
 });
 
+var _store = [];
 var QuestionStore = {
   init: function init(socket, questionElement) {
+    var _this = this;
+
     var questionId = questionElement.getAttribute("data-id");
 
     var questionChannel = socket.channel("questions:" + questionId);
     questionChannel.join().receive("ok", function (resp) {
-      return console.log("asdf is", resp);
+      _store = resp;
+      _this.update();
     }).receive("error", function (resp) {
       return console.log("harder to");
     });
-    _reactDom2.default.render(_react2.default.createElement(QuestionOption, null), questionElement);
+
+    _reactDom2.default.render(_react2.default.createElement(QuestionGame, null), questionElement);
+  },
+  update: function update() {
+    console.log("here is store contentes", _store);
   }
 };
 

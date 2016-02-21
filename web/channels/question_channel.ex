@@ -12,7 +12,8 @@ defmodule Luncher.QuestionChannel do
       ),
       options: Phoenix.View.render_many(
         question.options, Luncher.OptionView, "option.json"
-      )}
+      )
+    }
 
     {:ok, resp, assign(socket, :question_id, question_id)}
   end
