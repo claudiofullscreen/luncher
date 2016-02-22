@@ -4,14 +4,18 @@ defmodule Luncher.QuestionChannel do
   def join("questions:" <> question_id, _params, socket) do
     question_id = String.to_integer(question_id)
     question = Repo.get!(Luncher.Question, question_id)
-    question = Repo.preload(question, :options)
+    options = Repo.all(
+      from o in Luncher.Option,
+      where: o.question_id == ^question_id,
+      order_by: o.inserted_at
+    )
 
     resp = %{
       question: Phoenix.View.render_one(
         question, Luncher.QuestionView, "question.json"
       ),
       options: Phoenix.View.render_many(
-        question.options, Luncher.OptionView, "option.json"
+        options, Luncher.OptionView, "option.json"
       )
     }
 
