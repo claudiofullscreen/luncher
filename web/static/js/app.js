@@ -38,7 +38,6 @@ window.onload = () => {
       <ChatApp />, chatApp
     )    
   }
-
   let questionElement = document.getElementById("question-game")
   if (questionElement) {
     QuestionStore.init(socket, questionElement)

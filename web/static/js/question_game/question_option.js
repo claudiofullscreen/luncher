@@ -1,9 +1,18 @@
 import React from "react"
 import ReactDOM from "react-dom"
 
+var EventEmitter = require("events").EventEmitter
+const CHANGE_EVENT = "change"
+
 var QuestionGame = React.createClass({
   getInitialState() {
     return { questionText: "", options: [] }
+  },
+  componentDidMount() {
+    QuestionStore.on(CHANGE_EVENT, this.onChange)
+  },
+  onChange() {
+    // change stuff here
   },
   render() {
     return (
@@ -25,26 +34,25 @@ var QuestionOption = React.createClass({
   }
 })
 
-let _store = []
-var QuestionStore = {
+
+var QuestionStore = Object.assign({}, EventEmitter.prototype, {
   init(socket, questionElement) {
     let questionId = questionElement.getAttribute("data-id")
-
     let questionChannel = socket.channel("questions:" + questionId)
+    let _store = []
+    
     questionChannel.join()
       .receive("ok", resp => {
         _store = resp
-        this.update()
+        this.emit(CHANGE_EVENT)
       })
       .receive("error", resp => console.log("harder to"))
 
     ReactDOM.render(
       <QuestionGame />, questionElement
     )
-  },
-  update() {
-    console.log("here is store contentes" , _store)
   }
-}
+})
+
 
 export default QuestionStore
