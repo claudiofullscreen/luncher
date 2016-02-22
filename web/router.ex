@@ -30,7 +30,6 @@ defmodule Luncher.Router do
     get "/", PageController, :index
     resources "/signup", SignupController
     resources "/questions", QuestionController
-    resources "/options", OptionController
   end
 
   # Other scopes may use custom stacks.
