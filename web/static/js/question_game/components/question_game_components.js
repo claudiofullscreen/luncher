@@ -1,5 +1,5 @@
 import React from "react"
-import QuestionStore from "../question_option"
+import QuestionStore from "../stores/question_store"
 import EVENTS from "../constants"
 
 var QuestionGame = React.createClass({

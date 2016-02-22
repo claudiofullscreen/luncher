@@ -25,7 +25,7 @@ import ReactDOM from "react-dom"
 import jquery from "jquery"
 import IdentificationBox from "./identification/identification_box"
 import ChatApp from "./chat/chat"
-import QuestionStore from "./question_game/question_option"
+import QuestionStore from "./question_game/stores/question_store"
 window.onload = () => {
 
   ReactDOM.render(    

@@ -1,8 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
-import QuestionGame from "./components/question_game_components"
-import EVENTS from "./constants"
-
+import QuestionGame from "../components/question_game_components"
+import EVENTS from "../constants"
 var EventEmitter = require("events").EventEmitter
 
 var QuestionStore = Object.assign({}, EventEmitter.prototype, {

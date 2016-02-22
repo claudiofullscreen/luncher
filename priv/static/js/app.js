@@ -30912,9 +30912,9 @@ var _chat = require("./chat/chat");
 
 var _chat2 = _interopRequireDefault(_chat);
 
-var _question_option = require("./question_game/question_option");
+var _question_store = require("./question_game/stores/question_store");
 
-var _question_option2 = _interopRequireDefault(_question_option);
+var _question_store2 = _interopRequireDefault(_question_store);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30942,7 +30942,7 @@ window.onload = function () {
   }
   var questionElement = document.getElementById("question-game");
   if (questionElement) {
-    _question_option2.default.init(_socket2.default, questionElement);
+    _question_store2.default.init(_socket2.default, questionElement);
   }
 };
 
@@ -31213,9 +31213,9 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _question_option = require("../question_option");
+var _question_store = require("../stores/question_store");
 
-var _question_option2 = _interopRequireDefault(_question_option);
+var _question_store2 = _interopRequireDefault(_question_store);
 
 var _constants = require("../constants");
 
@@ -31232,13 +31232,13 @@ var QuestionGame = _react2.default.createClass({
     };
   },
   componentDidMount: function componentDidMount() {
-    _question_option2.default.on(_constants2.default.CHANGE, this.onChange);
+    _question_store2.default.on(_constants2.default.CHANGE, this.onChange);
   },
   componentWillUnmount: function componentWillUnmount() {
-    _question_option2.default.removeEventListener(_constants2.default.CHANGE, this.onChange);
+    _question_store2.default.removeEventListener(_constants2.default.CHANGE, this.onChange);
   },
   onChange: function onChange() {
-    this.setState(_question_option2.default.getStoreState());
+    this.setState(_question_store2.default.getStoreState());
   },
   render: function render() {
     return _react2.default.createElement(
@@ -31295,7 +31295,7 @@ var EVENTS = {
 exports.default = EVENTS;
 });
 
-;require.register("web/static/js/question_game/question_option", function(exports, require, module) {
+;require.register("web/static/js/question_game/stores/question_store", function(exports, require, module) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31310,11 +31310,11 @@ var _reactDom = require("react-dom");
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _question_game_components = require("./components/question_game_components");
+var _question_game_components = require("../components/question_game_components");
 
 var _question_game_components2 = _interopRequireDefault(_question_game_components);
 
-var _constants = require("./constants");
+var _constants = require("../constants");
 
 var _constants2 = _interopRequireDefault(_constants);
 
