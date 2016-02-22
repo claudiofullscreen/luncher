@@ -9,7 +9,7 @@ var QuestionGame = React.createClass({
   getInitialState() {
     return { 
       question: {text: "Loading..."},
-      options: [{name: "No options yet..."}]
+      options: []
     }
   },
   componentDidMount() {
@@ -41,7 +41,7 @@ var QuestionOptionList = React.createClass({
     return (
       <ul>
         {options.map(function(option) {
-          return <li>{option.name}</li>
+          return <li key={option.id}>{option.name}</li>
         })}
       </ul>
     )

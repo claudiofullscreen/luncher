@@ -31227,7 +31227,7 @@ var QuestionGame = _react2.default.createClass({
   getInitialState: function getInitialState() {
     return {
       question: { text: "Loading..." },
-      options: [{ name: "No options yet..." }]
+      options: []
     };
   },
   componentDidMount: function componentDidMount() {
@@ -31270,7 +31270,7 @@ var QuestionOptionList = _react2.default.createClass({
       options.map(function (option) {
         return _react2.default.createElement(
           "li",
-          null,
+          { key: option.id },
           option.name
         );
       })
