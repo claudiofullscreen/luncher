@@ -19,6 +19,10 @@ defmodule Luncher.QuestionChannel do
   end
 
   def handle_in("new_option_added", params, socket) do
+    option_params = %{name: params["name"], question_id: socket.assigns.question_id}
+    changeset = Luncher.Option.changeset(%Luncher.Option{}, option_params)
+    Repo.insert changeset
+
     broadcast! socket, "new_option_added", %{name: params["name"]}
     {:reply, :ok, socket}
   end
