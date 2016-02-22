@@ -31202,7 +31202,7 @@ var SignOffButton = _react2.default.createClass({
 exports.default = SignOffButton;
 });
 
-;require.register("web/static/js/question_game/question_option", function(exports, require, module) {
+;require.register("web/static/js/question_game/components/question_game_components", function(exports, require, module) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31213,14 +31213,15 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = require("react-dom");
+var _question_option = require("../question_option");
 
-var _reactDom2 = _interopRequireDefault(_reactDom);
+var _question_option2 = _interopRequireDefault(_question_option);
+
+var _constants = require("../constants");
+
+var _constants2 = _interopRequireDefault(_constants);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var EventEmitter = require("events").EventEmitter;
-var CHANGE_EVENT = "change";
 
 var QuestionGame = _react2.default.createClass({
   displayName: "QuestionGame",
@@ -31231,13 +31232,13 @@ var QuestionGame = _react2.default.createClass({
     };
   },
   componentDidMount: function componentDidMount() {
-    QuestionStore.on(CHANGE_EVENT, this.onChange);
+    _question_option2.default.on(_constants2.default.CHANGE, this.onChange);
   },
   componentWillUnmount: function componentWillUnmount() {
-    QuestionStore.removeEventListener(CHANGE_EVENT, this.onChange);
+    _question_option2.default.removeEventListener(_constants2.default.CHANGE, this.onChange);
   },
   onChange: function onChange() {
-    this.setState(QuestionStore.getStoreState());
+    this.setState(_question_option2.default.getStoreState());
   },
   render: function render() {
     return _react2.default.createElement(
@@ -31278,6 +31279,49 @@ var QuestionOptionList = _react2.default.createClass({
   }
 });
 
+exports.default = QuestionGame;
+});
+
+;require.register("web/static/js/question_game/constants", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var EVENTS = {
+  CHANGE: "change"
+};
+
+exports.default = EVENTS;
+});
+
+;require.register("web/static/js/question_game/question_option", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require("react-dom");
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _question_game_components = require("./components/question_game_components");
+
+var _question_game_components2 = _interopRequireDefault(_question_game_components);
+
+var _constants = require("./constants");
+
+var _constants2 = _interopRequireDefault(_constants);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var EventEmitter = require("events").EventEmitter;
+
 var QuestionStore = Object.assign({}, EventEmitter.prototype, {
   _store: [],
   init: function init(socket, questionElement) {
@@ -31288,12 +31332,12 @@ var QuestionStore = Object.assign({}, EventEmitter.prototype, {
 
     questionChannel.join().receive("ok", function (resp) {
       _this._store = resp;
-      _this.emit(CHANGE_EVENT);
+      _this.emit(_constants2.default.CHANGE);
     }).receive("error", function (resp) {
       return console.log("harder to");
     });
 
-    _reactDom2.default.render(_react2.default.createElement(QuestionGame, null), questionElement);
+    _reactDom2.default.render(_react2.default.createElement(_question_game_components2.default, null), questionElement);
   },
   getStoreState: function getStoreState() {
     return this._store;

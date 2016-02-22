@@ -1,52 +1,9 @@
 import React from "react"
 import ReactDOM from "react-dom"
+import QuestionGame from "./components/question_game_components"
+import EVENTS from "./constants"
 
 var EventEmitter = require("events").EventEmitter
-const CHANGE_EVENT = "change"
-
-
-var QuestionGame = React.createClass({
-  getInitialState() {
-    return { 
-      question: {text: "Loading..."},
-      options: []
-    }
-  },
-  componentDidMount() {
-    QuestionStore.on(CHANGE_EVENT, this.onChange)
-  },
-  componentWillUnmount() {
-    QuestionStore.removeEventListener(CHANGE_EVENT, this.onChange)
-  },
-  onChange() {
-    this.setState(QuestionStore.getStoreState())
-  },
-  render() {
-    return (
-      <div>
-        <QuestionText text={this.state.question.text}/>
-        <QuestionOptionList options={this.state.options} />
-      </div>
-    )
-  }
-})
-
-var QuestionText = React.createClass({
-  render() { return (<div>{this.props.text}</div>) }
-})
-
-var QuestionOptionList = React.createClass({
-  render() {
-    var options = this.props.options
-    return (
-      <ul>
-        {options.map(function(option) {
-          return <li key={option.id}>{option.name}</li>
-        })}
-      </ul>
-    )
-  }
-})
 
 var QuestionStore = Object.assign({}, EventEmitter.prototype, {
   _store: [],
@@ -57,7 +14,7 @@ var QuestionStore = Object.assign({}, EventEmitter.prototype, {
     questionChannel.join()
       .receive("ok", resp => {
         this._store = resp
-        this.emit(CHANGE_EVENT)
+        this.emit(EVENTS.CHANGE)
       })
       .receive("error", resp => console.log("harder to"))
 
