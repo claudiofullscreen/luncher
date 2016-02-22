@@ -30912,9 +30912,17 @@ var _chat = require("./chat/chat");
 
 var _chat2 = _interopRequireDefault(_chat);
 
+var _question_game_components = require("./question_game/components/question_game_components");
+
+var _question_game_components2 = _interopRequireDefault(_question_game_components);
+
 var _question_store = require("./question_game/stores/question_store");
 
 var _question_store2 = _interopRequireDefault(_question_store);
+
+var _action_creator = require("./question_game/actions/action_creator");
+
+var _action_creator2 = _interopRequireDefault(_action_creator);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30942,7 +30950,9 @@ window.onload = function () {
   }
   var questionElement = document.getElementById("question-game");
   if (questionElement) {
-    _question_store2.default.init(_socket2.default, questionElement);
+    _reactDom2.default.render(_react2.default.createElement(_question_game_components2.default, null), questionElement);
+    _action_creator2.default.init(_socket2.default, questionElement);
+    // QuestionStore.init(socket, questionElement)
   }
 };
 
@@ -31202,6 +31212,47 @@ var SignOffButton = _react2.default.createClass({
 exports.default = SignOffButton;
 });
 
+;require.register("web/static/js/question_game/actions/action_creator", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _question_store = require("../stores/question_store");
+
+var _question_store2 = _interopRequireDefault(_question_store);
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require("react-dom");
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ActionCreator = {
+  init: function init(socket, questionElement) {
+    var questionId = questionElement.getAttribute("data-id");
+    var questionChannel = socket.channel("questions:" + questionId);
+
+    questionChannel.join().receive("ok", function (resp) {
+      _question_store2.default.resetStore(resp);
+    }).receive("error", function (resp) {
+      return console.log("harder to");
+    });
+
+    questionChannel.on("new_option_added", function (resp) {
+      console.log("need to add this option to store", resp);
+    });
+  }
+};
+
+exports.default = ActionCreator;
+});
+
 ;require.register("web/static/js/question_game/components/question_game_components", function(exports, require, module) {
 "use strict";
 
@@ -31324,20 +31375,9 @@ var EventEmitter = require("events").EventEmitter;
 
 var QuestionStore = Object.assign({}, EventEmitter.prototype, {
   _store: [],
-  init: function init(socket, questionElement) {
-    var _this = this;
-
-    var questionId = questionElement.getAttribute("data-id");
-    var questionChannel = socket.channel("questions:" + questionId);
-
-    questionChannel.join().receive("ok", function (resp) {
-      _this._store = resp;
-      _this.emit(_constants2.default.CHANGE);
-    }).receive("error", function (resp) {
-      return console.log("harder to");
-    });
-
-    _reactDom2.default.render(_react2.default.createElement(_question_game_components2.default, null), questionElement);
+  resetStore: function resetStore(data) {
+    this._store = data;
+    this.emit(_constants2.default.CHANGE);
   },
   getStoreState: function getStoreState() {
     return this._store;

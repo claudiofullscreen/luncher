@@ -25,7 +25,9 @@ import ReactDOM from "react-dom"
 import jquery from "jquery"
 import IdentificationBox from "./identification/identification_box"
 import ChatApp from "./chat/chat"
+import QuestionGame from "./question_game/components/question_game_components"
 import QuestionStore from "./question_game/stores/question_store"
+import ActionCreator from "./question_game/actions/action_creator"
 window.onload = () => {
 
   ReactDOM.render(    
@@ -40,6 +42,10 @@ window.onload = () => {
   }
   let questionElement = document.getElementById("question-game")
   if (questionElement) {
-    QuestionStore.init(socket, questionElement)
+    ReactDOM.render(
+      <QuestionGame />, questionElement
+    )
+    ActionCreator.init(socket, questionElement)
+    // QuestionStore.init(socket, questionElement)
   }
 }
