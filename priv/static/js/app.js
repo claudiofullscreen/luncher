@@ -31225,31 +31225,37 @@ var CHANGE_EVENT = "change";
 var QuestionGame = _react2.default.createClass({
   displayName: "QuestionGame",
   getInitialState: function getInitialState() {
-    return { questionText: "", options: [] };
+    return {
+      question: { text: "Loading..." },
+      options: [{ name: "No options yet..." }]
+    };
   },
   componentDidMount: function componentDidMount() {
     QuestionStore.on(CHANGE_EVENT, this.onChange);
   },
+  componentWillUnmount: function componentWillUnmount() {
+    QuestionStore.removeEventListener(CHANGE_EVENT, this.onChange);
+  },
   onChange: function onChange() {
-    // change stuff here
+    this.setState(QuestionStore.getStoreState());
   },
   render: function render() {
     return _react2.default.createElement(
       "div",
       null,
-      _react2.default.createElement(QuestionTitle, { title: this.state.questionTitle }),
+      _react2.default.createElement(QuestionText, { text: this.state.question.text }),
       _react2.default.createElement(QuestionOption, null)
     );
   }
 });
 
-var QuestionTitle = _react2.default.createClass({
-  displayName: "QuestionTitle",
+var QuestionText = _react2.default.createClass({
+  displayName: "QuestionText",
   render: function render() {
     return _react2.default.createElement(
       "div",
       null,
-      "This is a question"
+      this.props.text
     );
   }
 });
@@ -31266,21 +31272,24 @@ var QuestionOption = _react2.default.createClass({
 });
 
 var QuestionStore = Object.assign({}, EventEmitter.prototype, {
+  _store: [],
   init: function init(socket, questionElement) {
     var _this = this;
 
     var questionId = questionElement.getAttribute("data-id");
     var questionChannel = socket.channel("questions:" + questionId);
-    var _store = [];
 
     questionChannel.join().receive("ok", function (resp) {
-      _store = resp;
+      _this._store = resp;
       _this.emit(CHANGE_EVENT);
     }).receive("error", function (resp) {
       return console.log("harder to");
     });
 
     _reactDom2.default.render(_react2.default.createElement(QuestionGame, null), questionElement);
+  },
+  getStoreState: function getStoreState() {
+    return this._store;
   }
 });
 
