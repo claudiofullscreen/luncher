@@ -12,6 +12,11 @@ var QuestionStore = Object.assign({}, EventEmitter.prototype, {
   },
   getStoreState() {
     return this._store
+  },
+  addOption(option) {
+    let newOption = Object.assign(option, {id: Math.ceil(Math.random() * 1000)})
+    this._store.options.push(newOption)
+    this.emit(EVENTS.CHANGE)
   }
 })
 

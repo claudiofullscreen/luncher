@@ -18,6 +18,11 @@ defmodule Luncher.QuestionChannel do
     {:ok, resp, assign(socket, :question_id, question_id)}
   end
 
+  def handle_in("new_option_added", params, socket) do
+    broadcast! socket, "new_option_added", %{name: params["name"]}
+    {:reply, :ok, socket}
+  end
+
   def handle_info(:ping, socket) do
     count = socket.assigns[:count] || 1
     push socket, "ping", %{count: count}

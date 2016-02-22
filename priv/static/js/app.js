@@ -31234,19 +31234,23 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ActionCreator = {
+  _questionChannel: null,
   init: function init(socket, questionElement) {
     var questionId = questionElement.getAttribute("data-id");
-    var questionChannel = socket.channel("questions:" + questionId);
+    this._questionChannel = socket.channel("questions:" + questionId);
 
-    questionChannel.join().receive("ok", function (resp) {
+    this._questionChannel.join().receive("ok", function (resp) {
       _question_store2.default.resetStore(resp);
     }).receive("error", function (resp) {
       return console.log("harder to");
     });
 
-    questionChannel.on("new_option_added", function (resp) {
-      console.log("need to add this option to store", resp);
+    this._questionChannel.on("new_option_added", function (resp) {
+      _question_store2.default.addOption(resp);
     });
+  },
+  createNewOption: function createNewOption(optionText) {
+    this._questionChannel.push("new_option_added", { name: optionText });
   }
 };
 
@@ -31272,6 +31276,10 @@ var _constants = require("../constants");
 
 var _constants2 = _interopRequireDefault(_constants);
 
+var _action_creator = require("../actions/action_creator");
+
+var _action_creator2 = _interopRequireDefault(_action_creator);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var QuestionGame = _react2.default.createClass({
@@ -31296,7 +31304,8 @@ var QuestionGame = _react2.default.createClass({
       "div",
       null,
       _react2.default.createElement(QuestionText, { text: this.state.question.text }),
-      _react2.default.createElement(QuestionOptionList, { options: this.state.options })
+      _react2.default.createElement(QuestionOptionList, { options: this.state.options }),
+      _react2.default.createElement(OptionComposer, null)
     );
   }
 });
@@ -31327,6 +31336,34 @@ var QuestionOptionList = _react2.default.createClass({
         );
       })
     );
+  }
+});
+
+var ENTER_KEY_CODE = 13;
+var OptionComposer = _react2.default.createClass({
+  displayName: "OptionComposer",
+  getInitialState: function getInitialState() {
+    return { text: "" };
+  },
+  render: function render() {
+    return _react2.default.createElement("textarea", {
+      className: "option-composer",
+      value: this.state.text,
+      onChange: this._onChange,
+      onKeyDown: this._onKeyDown });
+  },
+  _onChange: function _onChange(event, value) {
+    this.setState({ text: event.target.value });
+  },
+  _onKeyDown: function _onKeyDown(event) {
+    if (event.keyCode == ENTER_KEY_CODE) {
+      event.preventDefault();
+      var text = this.state.text.trim();
+      if (text) {
+        _action_creator2.default.createNewOption(text);
+      }
+      this.setState({ text: "" });
+    }
   }
 });
 
@@ -31381,6 +31418,11 @@ var QuestionStore = Object.assign({}, EventEmitter.prototype, {
   },
   getStoreState: function getStoreState() {
     return this._store;
+  },
+  addOption: function addOption(option) {
+    var newOption = Object.assign(option, { id: Math.ceil(Math.random() * 1000) });
+    this._store.options.push(newOption);
+    this.emit(_constants2.default.CHANGE);
   }
 });
 
