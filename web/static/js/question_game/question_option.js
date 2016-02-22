@@ -25,7 +25,7 @@ var QuestionGame = React.createClass({
     return (
       <div>
         <QuestionText text={this.state.question.text}/>
-        <QuestionOption />
+        <QuestionOptionList options={this.state.options} />
       </div>
     )
   }
@@ -35,12 +35,18 @@ var QuestionText = React.createClass({
   render() { return (<div>{this.props.text}</div>) }
 })
 
-var QuestionOption = React.createClass({
+var QuestionOptionList = React.createClass({
   render() {
-    return (<div>hello there this is an option</div>)
+    var options = this.props.options
+    return (
+      <ul>
+        {options.map(function(option) {
+          return <li>{option.name}</li>
+        })}
+      </ul>
+    )
   }
 })
-
 
 var QuestionStore = Object.assign({}, EventEmitter.prototype, {
   _store: [],

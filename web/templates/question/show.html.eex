@@ -1,13 +1,3 @@
-<h2><%= @question.text %></h2>
-
-<ul>
-  <%= for option <- @question.options do %>
-    <li>
-      <strong><%= option.name %></strong>
-    </li>
-  <%= end %>
-</ul>
-
 <%= content_tag :div, id: "question-game", data: [id: @question.id] do %><% end %>
 
 <%= form_for @new_option_changeset, option_path(@conn, :create), fn f -> %>

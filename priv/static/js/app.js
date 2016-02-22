@@ -31244,7 +31244,7 @@ var QuestionGame = _react2.default.createClass({
       "div",
       null,
       _react2.default.createElement(QuestionText, { text: this.state.question.text }),
-      _react2.default.createElement(QuestionOption, null)
+      _react2.default.createElement(QuestionOptionList, { options: this.state.options })
     );
   }
 });
@@ -31260,13 +31260,20 @@ var QuestionText = _react2.default.createClass({
   }
 });
 
-var QuestionOption = _react2.default.createClass({
-  displayName: "QuestionOption",
+var QuestionOptionList = _react2.default.createClass({
+  displayName: "QuestionOptionList",
   render: function render() {
+    var options = this.props.options;
     return _react2.default.createElement(
-      "div",
+      "ul",
       null,
-      "hello there this is an option"
+      options.map(function (option) {
+        return _react2.default.createElement(
+          "li",
+          null,
+          option.name
+        );
+      })
     );
   }
 });
