@@ -9,26 +9,9 @@
   var aliases = {};
   var has = ({}).hasOwnProperty;
 
-  var endsWith = function(str, suffix) {
-    return str.indexOf(suffix, str.length - suffix.length) !== -1;
-  };
-
-  var _cmp = 'components/';
   var unalias = function(alias, loaderPath) {
-    var start = 0;
-    if (loaderPath) {
-      if (loaderPath.indexOf(_cmp) === 0) {
-        start = _cmp.length;
-      }
-      if (loaderPath.indexOf('/', start) > 0) {
-        loaderPath = loaderPath.substring(start, loaderPath.indexOf('/', start));
-      }
-    }
-    var result = aliases[alias + '/index.js'] || aliases[loaderPath + '/deps/' + alias + '/index.js'];
-    if (result) {
-      return _cmp + result.substring(0, result.length - '.js'.length);
-    }
-    return alias;
+    var result = aliases[alias] || aliases[alias + '/index.js'];
+    return result || alias;
   };
 
   var _reg = /^\.\.?(\/|$)/;
@@ -65,9 +48,8 @@
   };
 
   var require = function(name, loaderPath) {
-    var path = expand(name, '.');
     if (loaderPath == null) loaderPath = '/';
-    path = unalias(name, loaderPath);
+    var path = unalias(name, loaderPath);
 
     if (has.call(cache, path)) return cache[path].exports;
     if (has.call(modules, path)) return initModule(path, modules[path]);
@@ -76,7 +58,7 @@
     if (has.call(cache, dirIndex)) return cache[dirIndex].exports;
     if (has.call(modules, dirIndex)) return initModule(dirIndex, modules[dirIndex]);
 
-    throw new Error('Cannot find module "' + name + '" from '+ '"' + loaderPath + '"');
+    throw new Error('Cannot find module "' + name + '" from ' + '"' + loaderPath + '"');
   };
 
   require.alias = function(from, to) {
@@ -87,7 +69,7 @@
     if (typeof bundle === 'object') {
       for (var key in bundle) {
         if (has.call(bundle, key)) {
-          modules[key] = bundle[key];
+          require.register(key, bundle[key]);
         }
       }
     } else {
@@ -449,7 +431,9 @@ function isUndefined(arg) {
 }
 
       })(exports,require,module);
-    });
+    });require.register('events/events', function(exports,require,module) {
+    module.exports = require('events');
+  });
 require.register('fbjs/lib/EventListener', function(exports,req,module){
       var require = __makeRequire((req), {"transform":["loose-envify"]}, 'fbjs');
       (function(exports,require,module) {
@@ -11645,7 +11629,56 @@ return jQuery;
 }));
 
       })(exports,require,module);
-    });
+    });require.register('jquery/dist/jquery', function(exports,require,module) {
+    module.exports = require('jquery');
+  });
+require.register('object-assign', function(exports,req,module){
+      var require = __makeRequire((function(n) { return req(n.replace('./', 'object-assign//')); }), {}, 'object-assign');
+      (function(exports,require,module) {
+        /* eslint-disable no-unused-vars */
+'use strict';
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+function toObject(val) {
+	if (val === null || val === undefined) {
+		throw new TypeError('Object.assign cannot be called with null or undefined');
+	}
+
+	return Object(val);
+}
+
+module.exports = Object.assign || function (target, source) {
+	var from;
+	var to = toObject(target);
+	var symbols;
+
+	for (var s = 1; s < arguments.length; s++) {
+		from = Object(arguments[s]);
+
+		for (var key in from) {
+			if (hasOwnProperty.call(from, key)) {
+				to[key] = from[key];
+			}
+		}
+
+		if (Object.getOwnPropertySymbols) {
+			symbols = Object.getOwnPropertySymbols(from);
+			for (var i = 0; i < symbols.length; i++) {
+				if (propIsEnumerable.call(from, symbols[i])) {
+					to[symbols[i]] = from[symbols[i]];
+				}
+			}
+		}
+	}
+
+	return to;
+};
+
+      })(exports,require,module);
+    });require.register('object-assign/index', function(exports,require,module) {
+    module.exports = require('object-assign');
+  });
 require.register('phoenix', function(exports,req,module){
       var require = __makeRequire((function(n) { return req(n.replace('./', 'phoenix//priv/static/')); }), {}, 'phoenix');
       (function(exports,require,module) {
@@ -12677,7 +12710,9 @@ var Timer = function () {
 })(typeof(exports) === "undefined" ? window.Phoenix = window.Phoenix || {} : exports);
 
       })(exports,require,module);
-    });
+    });require.register('phoenix/priv/static/phoenix', function(exports,require,module) {
+    module.exports = require('phoenix');
+  });
 require.register('phoenix_html', function(exports,req,module){
       var require = __makeRequire((function(n) { return req(n.replace('./', 'phoenix_html//priv/static/')); }), {}, 'phoenix_html');
       (function(exports,require,module) {
@@ -12701,7 +12736,9 @@ for (var i = 0; i < len; ++i) {
 
 ;
       })(exports,require,module);
-    });
+    });require.register('phoenix_html/priv/static/phoenix_html', function(exports,require,module) {
+    module.exports = require('phoenix_html');
+  });
 require.register('process', function(exports,req,module){
       var require = __makeRequire((function(n) { return req(n.replace('./', 'process//')); }), {}, 'process');
       (function(exports,require,module) {
@@ -12798,7 +12835,9 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
       })(exports,require,module);
-    });
+    });require.register('process/index', function(exports,require,module) {
+    module.exports = require('process');
+  });
 require.register('react-dom', function(exports,req,module){
       var require = __makeRequire((function(n) { return req(n.replace('./', 'react-dom//')); }), {}, 'react-dom');
       (function(exports,require,module) {
@@ -12807,7 +12846,9 @@ require.register('react-dom', function(exports,req,module){
 module.exports = require('react/lib/ReactDOM');
 
       })(exports,require,module);
-    });
+    });require.register('react-dom/index', function(exports,require,module) {
+    module.exports = require('react-dom');
+  });
 require.register('react/lib/AutoFocusUtils', function(exports,req,module){
       var require = __makeRequire((req), {"transform":["envify"]}, 'react');
       (function(exports,require,module) {
@@ -30880,7 +30921,9 @@ require.register('react', function(exports,req,module){
 module.exports = require('./lib/React');
 
       })(exports,require,module);
-    });
+    });require.register('react/react', function(exports,require,module) {
+    module.exports = require('react');
+  });
 require.register('process/browser', function(exports,require,module) {
     module.exports = require('process');
   });process = require('process');})();window.$ = require('jquery');window.jQuery = require('jquery');require.register("web/static/js/app", function(exports, require, module) {
@@ -31408,6 +31451,8 @@ var _constants2 = _interopRequireDefault(_constants);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var objectAssign = require('object-assign');
+
 var EventEmitter = require("events").EventEmitter;
 
 var QuestionStore = Object.assign({}, EventEmitter.prototype, {
@@ -31420,7 +31465,7 @@ var QuestionStore = Object.assign({}, EventEmitter.prototype, {
     return this._store;
   },
   addOption: function addOption(option) {
-    var newOption = Object.assign(option, { id: Math.ceil(Math.random() * 1000) });
+    var newOption = objectAssign(option, { id: Math.ceil(Math.random() * 1000) });
     this._store.options.push(newOption);
     this.emit(_constants2.default.CHANGE);
   }
