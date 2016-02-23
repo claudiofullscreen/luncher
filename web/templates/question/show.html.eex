@@ -1,5 +1,3 @@
-<header id="identification-form" class="header"></header>
-
 <%= content_tag :div, id: "question-game", data: [id: @question_id] do %><% end %>
 
 <div id="chat-app" data-question-id="<%= #{@question_id} %>"></div>

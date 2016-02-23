@@ -30985,17 +30985,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 window.onload = function () {
 
+  _reactDom2.default.render(_react2.default.createElement(_identification_box2.default, { url: "/api/session" }), document.getElementById("identification-form"));
+
   var chatApp = document.getElementById("chat-app");
   if (chatApp) {
     _reactDom2.default.render(_react2.default.createElement(_chat2.default, null), chatApp);
   }
+
   var questionElement = document.getElementById("question-game");
   if (questionElement) {
-    _reactDom2.default.render(_react2.default.createElement(_identification_box2.default, { url: "/api/session" }), document.getElementById("identification-form"));
-
     _reactDom2.default.render(_react2.default.createElement(_question_game_components2.default, null), questionElement);
     _action_creator2.default.init(_socket2.default, questionElement);
-    // QuestionStore.init(socket, questionElement)
   }
 };
 
