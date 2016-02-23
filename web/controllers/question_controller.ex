@@ -4,6 +4,7 @@ defmodule Luncher.QuestionController do
   alias Luncher.Question
   alias Luncher.Option
 
+  plug Luncher.Auth when action in [:show]
   plug :scrub_params, "question" when action in [:create, :update]
 
   def index(conn, _params) do

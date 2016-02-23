@@ -30,10 +30,6 @@ import QuestionStore from "./question_game/stores/question_store"
 import ActionCreator from "./question_game/actions/action_creator"
 window.onload = () => {
 
-  ReactDOM.render(    
-    <IdentificationBox url="/api/session"/>, document.getElementById("identification-form")
-  )
-
   let chatApp = document.getElementById("chat-app")
   if (chatApp) {
     ReactDOM.render(
@@ -42,6 +38,11 @@ window.onload = () => {
   }
   let questionElement = document.getElementById("question-game")
   if (questionElement) {
+    ReactDOM.render(
+      <IdentificationBox url="/api/session"/>,
+      document.getElementById("identification-form")
+    )
+
     ReactDOM.render(
       <QuestionGame />, questionElement
     )
