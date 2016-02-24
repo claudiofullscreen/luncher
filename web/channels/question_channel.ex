@@ -1,3 +1,4 @@
+require IEx
 defmodule Luncher.QuestionChannel do
   use Luncher.Web, :channel
 
@@ -35,6 +36,6 @@ defmodule Luncher.QuestionChannel do
     count = socket.assigns[:count] || 1
     push socket, "ping", %{count: count}
 
-    {:noreply, assign(socket, :count, count+ 1)}
+    {:noreply, assign(socket, :count, count + 1)}
   end
 end
