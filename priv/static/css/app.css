@@ -78,12 +78,20 @@ form.link, form.button {
   display: block;
   margin-right: 2.84259%;
   width: 17.72593%;
-  margin: 0.25em; }
+  margin: 0.2em; }
   /* line 89, /Users/alexauritt/code/elixir/luncher/node_modules/bourbon-neat/app/assets/stylesheets/grid/_span-columns.scss */
   .question-game .question-game--option:last-child {
     margin-right: 0; }
 
 /* line 47, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
+.question-game .question-game--option-score {
+  text-align: center; }
+
+/* line 51, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
+.question-game .question-game--option-title {
+  text-align: center; }
+
+/* line 55, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
 .question-game .question-game--option-composer {
   float: left;
   display: block;
@@ -93,12 +101,24 @@ form.link, form.button {
   .question-game .question-game--option-composer:last-child {
     margin-right: 0; }
 
+/* line 59, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
+.question-game .question-game--option-vote {
+  float: left;
+  display: block;
+  margin-right: 16.03631%;
+  width: 41.98184%;
+  border: thin solid black;
+  text-align: center; }
+  /* line 89, /Users/alexauritt/code/elixir/luncher/node_modules/bourbon-neat/app/assets/stylesheets/grid/_span-columns.scss */
+  .question-game .question-game--option-vote:last-child {
+    margin-right: 0; }
+
 /* Custom page header */
-/* line 54, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
+/* line 68, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
 .header {
   border-bottom: 1px solid #e5e5e5; }
 
-/* line 57, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
+/* line 71, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
 .logo {
   width: 519px;
   height: 71px;
@@ -108,7 +128,7 @@ form.link, form.button {
   background-size: 519px 71px; }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
-/* line 67, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
+/* line 81, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
 .header,
 .marketing {
   padding-right: 15px;
@@ -116,43 +136,43 @@ form.link, form.button {
 
 /* Customize container */
 @media (min-width: 768px) {
-  /* line 75, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
+  /* line 89, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
   .container {
     max-width: 730px; } }
 
-/* line 79, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
+/* line 93, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
 .container-narrow > hr {
   margin: 30px 0; }
 
 /* Main marketing message */
-/* line 84, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
+/* line 98, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
 .jumbotron {
   text-align: center;
   border-bottom: 1px solid #e5e5e5; }
 
 /* Supporting marketing content */
-/* line 90, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
+/* line 104, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
 .marketing {
   margin: 35px 0; }
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   /* Remove the padding we set earlier */
-  /* line 97, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
+  /* line 111, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
   .header,
   .marketing {
     padding-right: 0;
     padding-left: 0; }
   /* Space out the masthead */
-  /* line 103, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
+  /* line 117, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
   .header {
     margin-bottom: 30px; }
   /* Remove the bottom border on the jumbotron for visual effect */
-  /* line 107, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
+  /* line 121, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
   .jumbotron {
     border-bottom: 0; } }
 
-/* line 112, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
+/* line 126, /Users/alexauritt/code/elixir/luncher/web/static/css/app.scss */
 .welcome--main {
   text-align: center; }
 

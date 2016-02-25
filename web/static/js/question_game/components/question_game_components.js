@@ -51,8 +51,23 @@ var QuestionOptionList = React.createClass({
 })
 
 var QuestionOption = React.createClass({
+  render() { 
+    return (
+      <div className="question-game--option">
+        <div className="question-game--option-title">{this.props.name}</div>
+        <QuestionOptionScore score={3} />
+        <div className="question-game--option-vote">-</div>
+        <div className="question-game--option-vote">+</div>
+      </div>
+    )
+  }
+})
+
+var QuestionOptionScore = React.createClass({
   render() {
-    return <div className="question-game--option">{this.props.name}</div>
+    return (
+      <div className="question-game--option-score">{this.props.score}</div>
+    )
   }
 })
 

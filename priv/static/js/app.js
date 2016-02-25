@@ -31393,7 +31393,33 @@ var QuestionOption = _react2.default.createClass({
     return _react2.default.createElement(
       "div",
       { className: "question-game--option" },
-      this.props.name
+      _react2.default.createElement(
+        "div",
+        { className: "question-game--option-title" },
+        this.props.name
+      ),
+      _react2.default.createElement(QuestionOptionScore, { score: 3 }),
+      _react2.default.createElement(
+        "div",
+        { className: "question-game--option-vote" },
+        "-"
+      ),
+      _react2.default.createElement(
+        "div",
+        { className: "question-game--option-vote" },
+        "+"
+      )
+    );
+  }
+});
+
+var QuestionOptionScore = _react2.default.createClass({
+  displayName: "QuestionOptionScore",
+  render: function render() {
+    return _react2.default.createElement(
+      "div",
+      { className: "question-game--option-score" },
+      this.props.score
     );
   }
 });
