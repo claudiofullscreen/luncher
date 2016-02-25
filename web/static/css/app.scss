@@ -80,3 +80,8 @@ form.link, form.button {
 .welcome--main {
 	text-align: center;
 }
+
+$fun: blue;
+#question-text {
+  color: $fun;
+}

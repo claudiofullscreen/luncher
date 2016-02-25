@@ -31,7 +31,7 @@ var QuestionGame = React.createClass({
 })
 
 var QuestionText = React.createClass({
-  render() { return (<div>{this.props.text}</div>) }
+  render() { return (<div id="question-text">{this.props.text}</div>) }
 })
 
 var QuestionOptionList = React.createClass({

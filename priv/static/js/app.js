@@ -31358,7 +31358,7 @@ var QuestionText = _react2.default.createClass({
   render: function render() {
     return _react2.default.createElement(
       "div",
-      null,
+      { id: "question-text" },
       this.props.text
     );
   }
