@@ -29,6 +29,7 @@ defmodule Luncher.QuestionController do
   end
 
   def show(conn, %{"id" => id}) do
+    question = Repo.get!(Question, id)
     render(conn, "show.html", question_id: id)
   end
 
