@@ -21,10 +21,13 @@ var QuestionGame = React.createClass({
   },
   render() {
     return (
-      <div>
-        <QuestionText text={this.state.question.text}/>
-        <QuestionOptionList options={this.state.options} />
-        <OptionComposer />
+      <div className="question-game">
+        <div className="question-game--remaining-meter">Remaining</div>
+        <div className="question-game--main-panel">
+          <QuestionText text={this.state.question.text}/>
+          <OptionComposer />
+          <QuestionOptionList options={this.state.options} />
+        </div>
       </div>
     )
   }
@@ -38,12 +41,18 @@ var QuestionOptionList = React.createClass({
   render() {
     var options = this.props.options
     return (
-      <ul>
+      <div className="question-game--option-list">
         {options.map(function(option) {
-          return <li key={option.id}>{option.name}</li>
+          return <QuestionOption key={option.id} name={option.name} />
         })}
-      </ul>
+      </div>
     )
+  }
+})
+
+var QuestionOption = React.createClass({
+  render() {
+    return <div className="question-game--option">{this.props.name}</div>
   }
 })
 
@@ -55,7 +64,7 @@ var OptionComposer = React.createClass({
   render() {
     return(
       <textarea 
-        className="option-composer"
+        className="question-game--option-composer"
         value={this.state.text}
         onChange={this._onChange}
         onKeyDown={this._onKeyDown}/>

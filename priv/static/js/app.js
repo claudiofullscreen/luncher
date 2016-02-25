@@ -31345,10 +31345,19 @@ var QuestionGame = _react2.default.createClass({
   render: function render() {
     return _react2.default.createElement(
       "div",
-      null,
-      _react2.default.createElement(QuestionText, { text: this.state.question.text }),
-      _react2.default.createElement(QuestionOptionList, { options: this.state.options }),
-      _react2.default.createElement(OptionComposer, null)
+      { className: "question-game" },
+      _react2.default.createElement(
+        "div",
+        { className: "question-game--remaining-meter" },
+        "Remaining"
+      ),
+      _react2.default.createElement(
+        "div",
+        { className: "question-game--main-panel" },
+        _react2.default.createElement(QuestionText, { text: this.state.question.text }),
+        _react2.default.createElement(OptionComposer, null),
+        _react2.default.createElement(QuestionOptionList, { options: this.state.options })
+      )
     );
   }
 });
@@ -31369,15 +31378,22 @@ var QuestionOptionList = _react2.default.createClass({
   render: function render() {
     var options = this.props.options;
     return _react2.default.createElement(
-      "ul",
-      null,
+      "div",
+      { className: "question-game--option-list" },
       options.map(function (option) {
-        return _react2.default.createElement(
-          "li",
-          { key: option.id },
-          option.name
-        );
+        return _react2.default.createElement(QuestionOption, { key: option.id, name: option.name });
       })
+    );
+  }
+});
+
+var QuestionOption = _react2.default.createClass({
+  displayName: "QuestionOption",
+  render: function render() {
+    return _react2.default.createElement(
+      "div",
+      { className: "question-game--option" },
+      this.props.name
     );
   }
 });
@@ -31390,7 +31406,7 @@ var OptionComposer = _react2.default.createClass({
   },
   render: function render() {
     return _react2.default.createElement("textarea", {
-      className: "option-composer",
+      className: "question-game--option-composer",
       value: this.state.text,
       onChange: this._onChange,
       onKeyDown: this._onKeyDown });
