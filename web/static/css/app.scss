@@ -26,6 +26,20 @@ form.link, form.button {
   @include outer-container;
 }
 
+.identification__form {
+  .identification__input {
+    @include span-columns(3)
+  }
+
+  .identificastion--logged-in-panel {
+    @include span-columns(4);
+    align: right;
+  }
+  .identification--greeting {
+    align: right;
+  }
+}
+
 .question-game {
   .question-game--remaining-meter {
     @include span-columns(2);

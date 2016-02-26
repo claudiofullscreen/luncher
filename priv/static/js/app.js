@@ -30989,7 +30989,9 @@ window.onload = function () {
 
   var chatApp = document.getElementById("chat-app");
   if (chatApp) {
-    _reactDom2.default.render(_react2.default.createElement(_chat2.default, null), chatApp);
+    // ReactDOM.render(
+    //   <ChatApp />, chatApp
+    // )
   }
 
   var questionElement = document.getElementById("question-game");
@@ -31082,6 +31084,7 @@ var Greeting = _react2.default.createClass({
   displayName: "Greeting",
   render: function render() {
     var displayClass = this.props.firstName == "" ? "hide" : "show";
+    displayClass += " identification__greeting";
     return _react2.default.createElement(
       "div",
       { className: displayClass },
@@ -31166,8 +31169,12 @@ var IdentificationBox = _react2.default.createClass({
       "div",
       null,
       _react2.default.createElement(_identification_form2.default, { firstName: this.state.firstName, onSubmit: this.handleIdentificationSubmit }),
-      _react2.default.createElement(_greeting2.default, { firstName: this.state.firstName }),
-      _react2.default.createElement(_sign_off_button2.default, { isLoggedIn: this.state.isLoggedIn, onClick: this.handleLogout })
+      _react2.default.createElement(
+        "div",
+        { className: "logged-in-panel" },
+        _react2.default.createElement(_greeting2.default, { firstName: this.state.firstName }),
+        _react2.default.createElement(_sign_off_button2.default, { isLoggedIn: this.state.isLoggedIn, onClick: this.handleLogout })
+      )
     );
   }
 });

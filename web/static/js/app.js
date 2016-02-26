@@ -36,9 +36,9 @@ window.onload = () => {
 
   let chatApp = document.getElementById("chat-app")
   if (chatApp) {
-    ReactDOM.render(
-      <ChatApp />, chatApp
-    )    
+    // ReactDOM.render(
+    //   <ChatApp />, chatApp
+    // )
   }
 
   let questionElement = document.getElementById("question-game")

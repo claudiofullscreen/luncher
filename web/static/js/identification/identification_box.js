@@ -52,8 +52,10 @@ var IdentificationBox = React.createClass({
     return (
       <div>
         <IdentificationForm firstName={this.state.firstName} onSubmit={this.handleIdentificationSubmit} />
-        <Greeting firstName={this.state.firstName} />
-        <SignOffButton isLoggedIn={this.state.isLoggedIn} onClick={this.handleLogout} />
+        <div className="logged-in-panel">
+          <Greeting firstName={this.state.firstName} />
+          <SignOffButton isLoggedIn={this.state.isLoggedIn} onClick={this.handleLogout} />
+        </div>
       </div>
     )
   }
