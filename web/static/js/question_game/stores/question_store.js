@@ -16,7 +16,7 @@ var QuestionStore = Object.assign({}, EventEmitter.prototype, {
     return this._store
   },
   addOption(option) {
-    let newOption = objectAssign(option, {id: Math.ceil(Math.random() * 1000)})
+    let newOption = Object.assign(option, {currentScore: 0})
     this._store.options.push(newOption)
     this.emit(EVENTS.CHANGE)
   }

@@ -31295,8 +31295,8 @@ var ActionCreator = {
       return console.log("harder to");
     });
 
-    this._questionChannel.on("new_option_added", function (resp) {
-      _question_store2.default.addOption(resp);
+    this._questionChannel.on("new_option_added", function (option) {
+      _question_store2.default.addOption(option);
     });
   },
   createNewOption: function createNewOption(optionText) {
@@ -31391,7 +31391,7 @@ var QuestionOptionList = _react2.default.createClass({
       "div",
       { className: "question-game--option-list" },
       options.map(function (option) {
-        return _react2.default.createElement(QuestionOption, { key: option.id, optionId: option.id, name: option.name });
+        return _react2.default.createElement(QuestionOption, { key: option.id, currentScore: option.currentScore, optionId: option.id, name: option.name });
       })
     );
   }
@@ -31408,7 +31408,7 @@ var QuestionOption = _react2.default.createClass({
         { className: "question-game--option-title" },
         this.props.name
       ),
-      _react2.default.createElement(QuestionOptionScore, { score: 3, optionId: this.props.key }),
+      _react2.default.createElement(QuestionOptionScore, { score: this.props.currentScore, optionId: this.props.key }),
       _react2.default.createElement(VoteButton, { value: -1, optionId: this.props.optionId }),
       _react2.default.createElement(VoteButton, { value: 1, optionId: this.props.optionId })
     );
@@ -31524,7 +31524,7 @@ var QuestionStore = Object.assign({}, EventEmitter.prototype, {
     return this._store;
   },
   addOption: function addOption(option) {
-    var newOption = objectAssign(option, { id: Math.ceil(Math.random() * 1000) });
+    var newOption = Object.assign(option, { currentScore: 0 });
     this._store.options.push(newOption);
     this.emit(_constants2.default.CHANGE);
   }

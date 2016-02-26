@@ -43,7 +43,7 @@ var QuestionOptionList = React.createClass({
     return (
       <div className="question-game--option-list">
         {options.map(function(option) {
-          return <QuestionOption key={option.id} optionId={option.id} name={option.name} />
+          return <QuestionOption key={option.id} currentScore={option.currentScore} optionId={option.id} name={option.name} />
         })}
       </div>
     )
@@ -55,7 +55,7 @@ var QuestionOption = React.createClass({
     return (
       <div className="question-game--option">
         <div className="question-game--option-title">{this.props.name}</div>
-        <QuestionOptionScore score={3} optionId={this.props.key} />
+        <QuestionOptionScore score={this.props.currentScore} optionId={this.props.key} />
         <VoteButton value={-1} optionId={this.props.optionId} />
         <VoteButton value={1} optionId={this.props.optionId} />
       </div>

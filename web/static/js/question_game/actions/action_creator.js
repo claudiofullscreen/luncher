@@ -14,8 +14,8 @@ var ActionCreator = {
       })
       .receive("error", resp => console.log("harder to"))
 
-    this._questionChannel.on("new_option_added", (resp) => {
-      QuestionStore.addOption(resp)
+    this._questionChannel.on("new_option_added", (option) => {
+      QuestionStore.addOption(option)
     })
   },
   createNewOption(optionText) {

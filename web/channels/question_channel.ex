@@ -26,9 +26,9 @@ defmodule Luncher.QuestionChannel do
   def handle_in("new_option_added", params, socket) do
     option_params = %{name: params["name"], question_id: socket.assigns.question_id}
     changeset = Luncher.Option.changeset(%Luncher.Option{}, option_params)
-    Repo.insert changeset
+    {:ok, option} = Repo.insert changeset
 
-    broadcast! socket, "new_option_added", %{name: params["name"]}
+    broadcast! socket, "new_option_added", %{name: params["name"], id: option.id}
     {:reply, :ok, socket}
   end
 
@@ -36,17 +36,9 @@ defmodule Luncher.QuestionChannel do
     vp_params = %{option_id: params["option_id"], value: params["value"]}
 
     changeset = Luncher.VotePoint.changeset(%Luncher.VotePoint{}, vp_params)
-    IEx.pry
     Repo.insert changeset
 
     broadcast! socket, "new_vote_point", vp_params
     {:reply, :ok, socket}
-  end
-
-  def handle_info(:ping, socket) do
-    count = socket.assigns[:count] || 1
-    push socket, "ping", %{count: count}
-
-    {:noreply, assign(socket, :count, count + 1)}
   end
 end
