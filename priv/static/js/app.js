@@ -31301,6 +31301,9 @@ var ActionCreator = {
   },
   createNewOption: function createNewOption(optionText) {
     this._questionChannel.push("new_option_added", { name: optionText });
+  },
+  createNewVotePoint: function createNewVotePoint(data) {
+    this._questionChannel.push("new_vote_point", data);
   }
 };
 
@@ -31388,7 +31391,7 @@ var QuestionOptionList = _react2.default.createClass({
       "div",
       { className: "question-game--option-list" },
       options.map(function (option) {
-        return _react2.default.createElement(QuestionOption, { key: option.id, name: option.name });
+        return _react2.default.createElement(QuestionOption, { key: option.id, optionId: option.id, name: option.name });
       })
     );
   }
@@ -31405,17 +31408,24 @@ var QuestionOption = _react2.default.createClass({
         { className: "question-game--option-title" },
         this.props.name
       ),
-      _react2.default.createElement(QuestionOptionScore, { score: 3 }),
-      _react2.default.createElement(
-        "div",
-        { className: "question-game--option-vote" },
-        "-"
-      ),
-      _react2.default.createElement(
-        "div",
-        { className: "question-game--option-vote" },
-        "+"
-      )
+      _react2.default.createElement(QuestionOptionScore, { score: 3, optionId: this.props.key }),
+      _react2.default.createElement(VoteButton, { value: -1, optionId: this.props.optionId }),
+      _react2.default.createElement(VoteButton, { value: 1, optionId: this.props.optionId })
+    );
+  }
+});
+
+var VoteButton = _react2.default.createClass({
+  displayName: "VoteButton",
+  _onClick: function _onClick(event) {
+    _action_creator2.default.createNewVotePoint({ option_id: this.props.optionId, value: this.props.value });
+  },
+  render: function render() {
+    var content = this.props.value == "1" ? "+" : "-";
+    return _react2.default.createElement(
+      "div",
+      { className: "question-game--option-vote", onClick: this._onClick },
+      content
     );
   }
 });

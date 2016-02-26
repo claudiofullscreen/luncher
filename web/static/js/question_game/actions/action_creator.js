@@ -20,6 +20,9 @@ var ActionCreator = {
   },
   createNewOption(optionText) {
     this._questionChannel.push("new_option_added", {name: optionText})
+  },
+  createNewVotePoint(data) {
+    this._questionChannel.push("new_vote_point", data)
   }
 
 }

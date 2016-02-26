@@ -1,15 +1,14 @@
-defmodule Luncher.Option do
+defmodule Luncher.VotePoint do
   use Luncher.Web, :model
 
-  schema "options" do
-    field :name, :string
-    belongs_to :question, Luncher.Question
-    has_many :vote_points, Luncher.VotePoints
+  schema "vote_points" do
+    field :value, :integer
+    belongs_to :option, Luncher.Option
 
     timestamps
   end
 
-  @required_fields ~w(name question_id)
+  @required_fields ~w(value option_id)
   @optional_fields ~w()
 
   @doc """
@@ -21,6 +20,5 @@ defmodule Luncher.Option do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
-    |> validate_length(:name, min: 3, max: 100)
   end
 end
