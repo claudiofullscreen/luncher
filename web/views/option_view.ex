@@ -6,7 +6,7 @@ defmodule Luncher.OptionView do
       id: option.id,
       name: option.name,
       questionId: option.question_id,
-      currentScore: 32
+      currentScore: option.current_score
     }
   end
 end

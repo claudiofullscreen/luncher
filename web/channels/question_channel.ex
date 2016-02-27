@@ -1,14 +1,20 @@
-require IEx
 defmodule Luncher.QuestionChannel do
   use Luncher.Web, :channel
 
   def join("questions:" <> question_id, _params, socket) do
     question_id = String.to_integer(question_id)
     question = Repo.get!(Luncher.Question, question_id)
+
     options = Repo.all(
       from o in Luncher.Option,
+      join: vp in assoc(o, :vote_points),
       where: o.question_id == ^question_id,
-      order_by: o.inserted_at
+      group_by: o.id,
+      select: %{
+        id: o.id,
+        name: o.name,
+        current_score: sum(vp.value),
+        question_id: o.question_id}
     )
 
     resp = %{

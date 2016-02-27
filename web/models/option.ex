@@ -4,7 +4,7 @@ defmodule Luncher.Option do
   schema "options" do
     field :name, :string
     belongs_to :question, Luncher.Question
-    has_many :vote_points, Luncher.VotePoints
+    has_many :vote_points, Luncher.VotePoint
 
     timestamps
   end
