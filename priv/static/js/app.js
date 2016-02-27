@@ -31519,7 +31519,7 @@ var objectAssign = require('object-assign');
 var EventEmitter = require("events").EventEmitter;
 
 var QuestionStore = Object.assign({}, EventEmitter.prototype, {
-  _store: [],
+  _store: {},
   resetStore: function resetStore(data) {
     this._store = data;
     this.emit(_constants2.default.CHANGE);
@@ -31533,7 +31533,15 @@ var QuestionStore = Object.assign({}, EventEmitter.prototype, {
     this.emit(_constants2.default.CHANGE);
   },
   updateOptionScore: function updateOptionScore(optionId, incrementValue) {
-    console.log("I will update ", optionId, incrementValue);
+    this._store.options = this._store.options.map(function (option) {
+      if (option.id == optionId) {
+        option.currentScore = option.currentScore + incrementValue;
+        return option;
+      } else {
+        return option;
+      }
+    });
+    this.emit(_constants2.default.CHANGE);
   }
 });
 

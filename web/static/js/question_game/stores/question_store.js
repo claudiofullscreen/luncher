@@ -7,7 +7,7 @@ var objectAssign = require('object-assign');
 var EventEmitter = require("events").EventEmitter
 
 var QuestionStore = Object.assign({}, EventEmitter.prototype, {
-  _store: [],
+  _store: {},
   resetStore(data) {
     this._store = data
     this.emit(EVENTS.CHANGE)
@@ -21,7 +21,15 @@ var QuestionStore = Object.assign({}, EventEmitter.prototype, {
     this.emit(EVENTS.CHANGE)
   },
   updateOptionScore(optionId, incrementValue) {
-    console.log("I will update ", optionId, incrementValue)
+    this._store.options = this._store.options.map(option => {
+      if (option.id == optionId) {
+        option.currentScore = option.currentScore + incrementValue
+        return option
+      } else {
+        return option
+      }
+    })
+    this.emit(EVENTS.CHANGE)
   }
 })
 
