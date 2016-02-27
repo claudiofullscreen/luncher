@@ -19,6 +19,9 @@ var QuestionStore = Object.assign({}, EventEmitter.prototype, {
     let newOption = Object.assign(option, {currentScore: 0})
     this._store.options.push(newOption)
     this.emit(EVENTS.CHANGE)
+  },
+  updateOptionScore(optionId, incrementValue) {
+    console.log("I will update ", optionId, incrementValue)
   }
 })
 

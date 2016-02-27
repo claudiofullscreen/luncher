@@ -31298,6 +31298,10 @@ var ActionCreator = {
     this._questionChannel.on("new_option_added", function (option) {
       _question_store2.default.addOption(option);
     });
+
+    this._questionChannel.on("new_vote_point", function (data) {
+      _question_store2.default.updateOptionScore(data.option_id, data.value);
+    });
   },
   createNewOption: function createNewOption(optionText) {
     this._questionChannel.push("new_option_added", { name: optionText });
@@ -31527,6 +31531,9 @@ var QuestionStore = Object.assign({}, EventEmitter.prototype, {
     var newOption = Object.assign(option, { currentScore: 0 });
     this._store.options.push(newOption);
     this.emit(_constants2.default.CHANGE);
+  },
+  updateOptionScore: function updateOptionScore(optionId, incrementValue) {
+    console.log("I will update ", optionId, incrementValue);
   }
 });
 

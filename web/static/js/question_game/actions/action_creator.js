@@ -17,6 +17,10 @@ var ActionCreator = {
     this._questionChannel.on("new_option_added", (option) => {
       QuestionStore.addOption(option)
     })
+
+    this._questionChannel.on("new_vote_point", (data) => {
+      QuestionStore.updateOptionScore(data.option_id, data.value)
+    })
   },
   createNewOption(optionText) {
     this._questionChannel.push("new_option_added", {name: optionText})
