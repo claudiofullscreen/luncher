@@ -1,6 +1,8 @@
 defmodule Luncher.QuestionChannel do
   use Luncher.Web, :channel
 
+  @voting_round_duration 10_000
+
   def join("questions:" <> question_id, _params, socket) do
     question_id = String.to_integer(question_id)
     question = Repo.get!(Luncher.Question, question_id)
@@ -26,6 +28,8 @@ defmodule Luncher.QuestionChannel do
       )
     }
 
+    :timer.send_interval(@voting_round_duration, :point_refresh)
+
     {:ok, resp, assign(socket, :question_id, question_id)}
   end
 
@@ -36,6 +40,11 @@ defmodule Luncher.QuestionChannel do
 
     broadcast! socket, "new_option_added", %{name: params["name"], id: option.id}
     {:reply, :ok, socket}
+  end
+
+  def handle_info(:point_refresh, socket) do
+    push socket, "point_refresh", %{}
+    {:noreply, socket}
   end
 
   def handle_in("new_vote_point", params, socket) do

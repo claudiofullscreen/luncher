@@ -6,7 +6,7 @@ var objectAssign = require('object-assign');
 
 var EventEmitter = require("events").EventEmitter
 
-var QuestionStore = Object.assign({}, EventEmitter.prototype, {
+var QuestionStore = objectAssign({}, EventEmitter.prototype, {
   _store: {},
   resetStore(data) {
     this._store = data

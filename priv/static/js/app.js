@@ -31302,6 +31302,10 @@ var ActionCreator = {
     this._questionChannel.on("new_vote_point", function (data) {
       _question_store2.default.updateOptionScore(data.option_id, data.value);
     });
+
+    this._questionChannel.on("point_refresh", function (data) {
+      console.log("REFRESH");
+    });
   },
   createNewOption: function createNewOption(optionText) {
     this._questionChannel.push("new_option_added", { name: optionText });
@@ -31518,7 +31522,7 @@ var objectAssign = require('object-assign');
 
 var EventEmitter = require("events").EventEmitter;
 
-var QuestionStore = Object.assign({}, EventEmitter.prototype, {
+var QuestionStore = objectAssign({}, EventEmitter.prototype, {
   _store: {},
   resetStore: function resetStore(data) {
     this._store = data;
