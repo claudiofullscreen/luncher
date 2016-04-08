@@ -4,6 +4,7 @@ defmodule Luncher.QuestionChannel do
   @voting_round_duration 10_000
 
   def join("questions:" <> question_id, _params, socket) do
+
     question_id = String.to_integer(question_id)
     question = Repo.get!(Luncher.Question, question_id)
 
@@ -19,7 +20,7 @@ defmodule Luncher.QuestionChannel do
         question_id: o.question_id}
     )
 
-    resp = %{
+    info = %{
       question: Phoenix.View.render_one(
         question, Luncher.QuestionView, "question.json"
       ),
@@ -29,8 +30,8 @@ defmodule Luncher.QuestionChannel do
     }
 
     :timer.send_interval(@voting_round_duration, :point_refresh)
-
-    {:ok, resp, assign(socket, :question_id, question_id)}
+    socket = assign(socket, :info, info)
+    {:ok, info, assign(socket, :question_id, question_id)}
   end
 
   def handle_in("new_option_added", params, socket) do
