@@ -20,9 +20,22 @@ defmodule Luncher.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
 
-  def connect(_params, socket) do
-    {:ok, socket}
+  @max_age 2 * 7 * 24 * 60 * 60
+
+  def connect(%{"token" => ""}, socket) do
+    {:ok, assign(socket, :uuid, nil)}
   end
+
+  def connect(%{"token" => token}, socket) do
+    case Phoenix.Token.verify(socket, "user socket", token, max_age: @max_age) do
+      {:ok, uuid} ->
+        {:ok, assign(socket, :uuid, uuid)}
+      {:error, _reason} ->
+        :error
+    end
+  end
+
+  def connect(_params, _socket), do: :error
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
   #
@@ -34,5 +47,12 @@ defmodule Luncher.UserSocket do
   #     Luncher.Endpoint.broadcast("users_socket:#{user.id}", "disconnect", %{})
   #
   # Returning `nil` makes this socket anonymous.
-  def id(_socket), do: nil
+  def id(socket) do
+    case socket.assigns.uuid do
+      nil ->
+        nil
+      true ->
+        "user_socket:#{socket.assigns.uuid}"      
+    end
+  end
 end
